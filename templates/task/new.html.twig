@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer une tâche{% endblock %}
+
+{% block body %}
+    <h1>Créer une tâche</h1>   
+
+{# Applique ton template de formulaire personnalisé #}
+    {#{% form_theme form 'form/form_template.html.twig' %}#}
+    
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn btn-primary">Enregistrer</button>
+    {{ form_end(form) }}
+
+{% endblock %}
