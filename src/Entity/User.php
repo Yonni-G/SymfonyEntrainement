@@ -42,6 +42,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le nom est obligatoire.")]
+    #[Assert\Regex(
+        pattern: '/^[a-zA-ZÀ-ÿ\s\-]{3,}$/u',
+        message: 'Le nom ne peut contenir que des lettres, des espaces et des tirets!!.'
+    )]
     private ?string $nom = null;
 
     public function getId(): ?int

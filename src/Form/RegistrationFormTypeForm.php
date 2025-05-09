@@ -10,6 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class RegistrationFormTypeForm extends AbstractType
 {
@@ -27,12 +29,28 @@ class RegistrationFormTypeForm extends AbstractType
                 'attr' => [
                     'placeholder' => 'Entrez votre nom',
                 ],
+
             ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'first_options'  => ['label' => 'Mot de passe'],
                 'second_options' => ['label' => 'Confirmer le mot de passe'],
-                'mapped' => false, // car ce n'est pas une propriété persistée
+                'invalid_message' => 'Les mots de passe doivent correspondre.',
+                'mapped' => false, // YG : car ce n'est pas une propriété persistée
+                'attr' => [
+                    'autocomplete' => 'new-password',
+                    'placeholder' => 'Entrez votre mot de passe',
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez entrer un mot de passe',
+                    ]),
+                    new Regex([
+                        'pattern' => '/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/',
+                        'message' => 'Le mot de passe doit contenir au moins 8 caractères, une lettre et un chiffre.',
+                    ]),
+                ],
+
             ]);
     }
 
